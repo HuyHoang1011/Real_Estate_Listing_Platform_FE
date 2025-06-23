@@ -1,34 +1,39 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import * as authService from '../services/authService';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  // userInfo: { username, role } hoặc null nếu chưa login
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Hàm đăng nhập giả lập
-  const login = (username, password) => {
-    // Hardcode tài khoản
-    if (username === "admin" && password === "admin") {
-      setUser({ username: "admin", role: "admin" });
-      return { success: true };
-    }
-    if (username === "user" && password === "123") {
-      setUser({ username: "user", role: "user" });
-      return { success: true };
-    }
-    return { success: false, message: "Invalid credentials" };
+  const login = async (email, password) => {
+    const res = await authService.login({ email, password });
+    localStorage.setItem('access_token', res.data.access_token);
+    localStorage.setItem('refresh_token', res.data.refresh_token);
+    setUser(res.data.user);
+    return res.data.user;
   };
 
-  const logout = () => setUser(null);
+  const register = async (data) => {
+    const res = await authService.register(data);
+    return res.data;
+  };
+
+  const logout = () => {
+    authService.logout();
+    setUser(null);
+  };
+
+  useEffect(() => {
+    // TODO: kiểm tra token và load user khi load app
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+// Tạo và export hook useAuth
+export const useAuth = () => useContext(AuthContext);

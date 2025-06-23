@@ -1,9 +1,10 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import Auth from "./pages/Auth"; // nếu dùng chung khung đăng nhập/register
-import Login from './pages/Login';
-import Register from './pages/Register';
+
+import Auth from "./pages/Auth";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
@@ -15,9 +16,9 @@ export default function App() {
     return (
       <Routes>
         <Route path="/auth" element={<Auth />}>
-          <Route index element={<Login />} />         {/* /auth */}
-          <Route path="login" element={<Login />} />  {/* /auth/login */}
-          <Route path="register" element={<Register />} /> {/* /auth/register */}
+          <Route index element={<Navigate to="login" replace />} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="register" element={<RegisterForm />} />
         </Route>
         <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
