@@ -1,19 +1,28 @@
-// src/components/PropertyCard.jsx
-import React from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function PropertyCard({ property }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/properties/${property.id}`);
+  };
+
   return (
-    <div className="border rounded-md overflow-hidden shadow hover:shadow-lg transition cursor-pointer">
+    <div
+      onClick={handleClick}
+      className="cursor-pointer border rounded shadow hover:shadow-lg transition p-4"
+    >
       <img
-        src={property.images?.[0] || "/placeholder.jpg"}
+        src={property.images?.[0] || '/placeholder.jpg'}
         alt={property.title}
-        className="w-full h-48 object-cover"
+        className="w-full h-48 object-cover rounded"
       />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold mb-1">{property.title}</h3>
-        <p className="text-sm text-gray-600 mb-2 truncate">{property.description}</p>
-        <p className="text-blue-600 font-bold">{property.price.toLocaleString()} VND</p>
-      </div>
+      <h3 className="text-lg font-semibold mt-2">{property.title}</h3>
+      <p className="text-gray-700">{property.location}</p>
+      <p className="text-blue-600 font-bold">
+        {property.price.toLocaleString()} VND
+      </p>
     </div>
   );
 }

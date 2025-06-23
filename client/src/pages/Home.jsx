@@ -1,48 +1,35 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState } from "react";
-import Banner from "../components/Banner";
-import PropertyCard from "../components/PropertyCard";
-import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useGetPropertiesQuery } from '../features/properties/propertiesApi';
+import Banner from '../components/Banner';
+import PropertyCard from '../components/PropertyCard';
+import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
-  const [properties, setProperties] = useState([]);
+  // Lấy dữ liệu 8 bất động sản mới nhất từ RTK Query
+  const { data: properties = [], error, isLoading } = useGetPropertiesQuery({ limit: 8, sort: 'newest' });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Giả lập call API lấy 8 dự án mới nhất
-    // Thay bằng call API thật khi backend sẵn sàng
-    async function fetchProperties() {
-      try {
-        const res = await fetch("http://localhost:3000/properties?limit=8&sort=newest");
-        const data = await res.json();
-        setProperties(data);
-      } catch (error) {
-        console.error("Lấy danh sách bất động sản lỗi:", error);
-      }
-    }
-    fetchProperties();
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Banner />
 
-      <section className="container mx-auto px-4 mt-12">
+      <section className="container mx-auto px-4 mt-12 flex-grow">
         <h2 className="text-2xl font-bold mb-6">Dự án bất động sản mới nhất</h2>
+
+        {isLoading && <p>Đang tải dữ liệu...</p>}
+        {error && <p className="text-red-600">Lỗi tải dữ liệu</p>}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {properties.length === 0 ? (
-            <p>Đang tải dữ liệu...</p>
-          ) : (
-            properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))
-          )}
+          {properties.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
         </div>
 
         <div className="flex justify-center mt-8">
           <button
-            onClick={() => navigate("/properties")}
+            onClick={() => navigate('/properties')}
             className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
           >
             Show More

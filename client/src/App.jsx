@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
+import { useSelector } from "react-redux";
 
 import Auth from "./pages/Auth";
 import LoginForm from "./components/LoginForm";
@@ -8,9 +8,10 @@ import RegisterForm from "./components/RegisterForm";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
+import PropertyDetail from './pages/PropertyDetail';
 
 export default function App() {
-  const { user } = useAuth();
+  const user = useSelector((state) => state.auth.user);
 
   if (!user) {
     return (
@@ -38,6 +39,7 @@ export default function App() {
           <>
             <Route path="/home" element={<Home />} />
             <Route path="*" element={<Navigate to="/home" replace />} />
+            <Route path="/properties/:id" element={<PropertyDetail />} />
           </>
         )}
       </Routes>
