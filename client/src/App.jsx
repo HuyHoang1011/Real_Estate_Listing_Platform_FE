@@ -1,7 +1,9 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import Auth from "./pages/Auth";
+import Auth from "./pages/Auth"; // nếu dùng chung khung đăng nhập/register
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
@@ -9,17 +11,19 @@ import Navbar from "./components/Navbar";
 export default function App() {
   const { user } = useAuth();
 
-  // Nếu chưa đăng nhập, mọi route redirect về /auth
   if (!user) {
     return (
       <Routes>
-        <Route path="/auth" element={<Auth />} />
+        <Route path="/auth" element={<Auth />}>
+          <Route index element={<Login />} />         {/* /auth */}
+          <Route path="login" element={<Login />} />  {/* /auth/login */}
+          <Route path="register" element={<Register />} /> {/* /auth/register */}
+        </Route>
         <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     );
   }
 
-  // Đã đăng nhập, hiển thị Navbar và route theo role
   return (
     <>
       <Navbar />

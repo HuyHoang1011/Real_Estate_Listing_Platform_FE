@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../store/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const { register } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function Register() {
       alert('Registration successful! Please login.');
       // Chuyển hướng về trang login nếu dùng react-router
       // navigate('/login');
+      navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     }
