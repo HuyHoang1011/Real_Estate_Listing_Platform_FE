@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useAuthLoad } from './hooks/useAuthLoad';
 
 import Auth from "./pages/Auth";
 import LoginForm from "./components/LoginForm";
@@ -11,6 +12,8 @@ import Navbar from "./components/Navbar";
 import PropertyDetail from './pages/PropertyDetail';
 
 export default function App() {
+  useAuthLoad();  // load user khi app start
+
   const user = useSelector((state) => state.auth.user);
 
   if (!user) {

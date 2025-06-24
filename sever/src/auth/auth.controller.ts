@@ -1,6 +1,7 @@
 import {
     Controller,
     Post,
+    Get,
     Body,
     UseGuards,
     Request,
@@ -50,4 +51,11 @@ export class AuthController {
     async refreshToken(@Body('refresh_token') refreshToken: string) {
         return this.authService.refreshToken(refreshToken);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('me')
+    getProfile(@Request() req) {
+        return req.user; // user đã được xác thực từ JWT
+    }
+
 }

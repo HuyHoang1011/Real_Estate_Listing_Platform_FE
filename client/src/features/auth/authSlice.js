@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post('http://localhost:3000/auth/login', { email, password });
       return response.data; // { access_token, refresh_token, user }
     } catch (err) {
-      return rejectWithValue(err.response.data.message || 'Login failed');
+      return rejectWithValue(err.response?.data?.message || 'Login failed');
     }
   }
 );
@@ -38,6 +38,10 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
+    setUser(state, action) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    },
     logout: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -84,5 +88,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { setUser, logout } = authSlice.actions;
 export default authSlice.reducer;
