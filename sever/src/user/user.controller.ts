@@ -10,7 +10,6 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get('me')
     getProfile(@Request() req) {
-        console.log('Payload JWT (req.user):', req.user);
         return this.userService.findById(req.user.userId);
     }
 

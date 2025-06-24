@@ -1,38 +1,43 @@
 import {
   Controller,
+  Get,
   Post,
   Delete,
-  Get,
+  Param,
   UseGuards,
   Request,
-  Param,
-  ParseIntPipe,
   Body,
+  ParseIntPipe,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { FavoriteService } from './favorite.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CreateFavoriteDto } from './dto/create-favorite.dto';
+import { FavoritesService } from './favorite.service';
+import { AddFavoriteDto } from './dto/create-favorite.dto';
 
 @Controller('favorites')
-@UseGuards(JwtAuthGuard)
-export class FavoriteController {
-  constructor(private readonly favoriteService: FavoriteService) {}
+export class FavoritesController {
+  constructor(private readonly favoritesService: FavoritesService) {}
 
-  @UsePipes(new ValidationPipe({ whitelist: true }))
-  @Post()
-  addFavorite(@Request() req, @Body() createFavoriteDto: CreateFavoriteDto) {
-    return this.favoriteService.addFavorite(req.user.userId, createFavoriteDto.propertyId);
-  }
-
-  @Delete(':propertyId')
-  removeFavorite(@Request() req, @Param('propertyId', ParseIntPipe) propertyId: number) {
-    return this.favoriteService.removeFavorite(req.user.userId, propertyId);
-  }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findMyFavorites(@Request() req) {
-    return this.favoriteService.findByUser(req.user.userId);
+  getFavorites(@Request() req) {
+    return this.favoritesService.getFavoritesByUser(req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
+  addFavorite(@Request() req, @Body() addFavoriteDto: AddFavoriteDto) {
+    return this.favoritesService.addFavorite(req.user.userId, addFavoriteDto.propertyId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':propertyId')
+  removeFavorite(
+    @Request() req,
+    @Param('propertyId', ParseIntPipe) propertyId: number,
+  ) {
+    return this.favoritesService.removeFavorite(req.user.userId, propertyId);
   }
 }

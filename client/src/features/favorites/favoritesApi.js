@@ -1,35 +1,43 @@
-// src/features/favorites/favoritesApi.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const favoritesApi = createApi({
-  reducerPath: 'favoritesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
+export const favoriteApi = createApi({
+  reducerPath: 'favoriteApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3000',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['Favorites'],
   endpoints: (builder) => ({
-    getFavorites: builder.query({
-      query: (userId) => `/favorites?userId=${userId}`,
-      providesTags: ['Favorites'],
-    }),
     addFavorite: builder.mutation({
-      query: (favorite) => ({
+      query: (propertyId) => ({
         url: '/favorites',
         method: 'POST',
-        body: favorite,
+        body: { propertyId },
       }),
-      invalidatesTags: ['Favorites'],
+      invalidatesTags: ['Favorites', 'Properties'],
     }),
     removeFavorite: builder.mutation({
-      query: (id) => ({
-        url: `/favorites/${id}`,
+      query: (propertyId) => ({
+        url: `/favorites/${propertyId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Favorites'],
+      invalidatesTags: ['Favorites', 'Properties'],
+    }),
+    getFavorites: builder.query({
+      query: () => '/favorites',
+      providesTags: ['Favorites'],
     }),
   }),
 });
 
 export const {
-  useGetFavoritesQuery,
   useAddFavoriteMutation,
   useRemoveFavoriteMutation,
-} = favoritesApi;
+  useGetFavoritesQuery,
+} = favoriteApi;
