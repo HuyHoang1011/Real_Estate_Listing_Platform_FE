@@ -4,6 +4,7 @@ import authReducer from '../features/auth/authSlice';
 import { propertiesApi } from '../features/properties/propertiesApi';
 import { favoritesApi } from '../features/favorites/favoritesApi';
 import { contactsApi } from '../features/contacts/contactsApi';
+import { userApi } from '../features/user/userApi';  
 
 export const store = configureStore({
   reducer: {
@@ -12,9 +13,11 @@ export const store = configureStore({
     [propertiesApi.reducerPath]: propertiesApi.reducer,
     [favoritesApi.reducerPath]: favoritesApi.reducer,
     [contactsApi.reducerPath]: contactsApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       // Kết hợp middleware RTK Query để hỗ trợ cache, refetch,...
-      .concat(propertiesApi.middleware, favoritesApi.middleware, contactsApi.middleware),
+      .concat(propertiesApi.middleware, favoritesApi.middleware, contactsApi.middleware)
+      .concat(userApi.middleware),
 });

@@ -45,7 +45,7 @@ export default function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="*" element={<Navigate to="/home" replace />} />
-            {/* <Route path="/profile" element={<Profile />} />  */}
+            <Route path="/profile" element={<Profile />} /> 
             <Route path="/properties/:id" element={<PropertyDetail />} />
           </>
         )}
