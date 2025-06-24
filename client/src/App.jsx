@@ -7,7 +7,7 @@ import Auth from "./pages/Auth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Home from "./pages/Home";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./admin/AdminDashboard";
 import Navbar from "./components/Navbar";
 import PropertyDetail from './pages/PropertyDetail';
 import Profile from './pages/Profile';
