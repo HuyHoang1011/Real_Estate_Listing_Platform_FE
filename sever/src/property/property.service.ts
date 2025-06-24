@@ -1,32 +1,63 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+// src/property/property.service.ts
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';  // giả sử bạn có PrismaService đã cấu hình
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PropertyService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
+
+  async findAll(filters: any = {}) {
+    const where: any = {};
+
+    if (filters.keyword) {
+      where.OR = [
+        { title: { contains: filters.keyword, mode: 'insensitive' } },
+        { description: { contains: filters.keyword, mode: 'insensitive' } },
+        { location: { contains: filters.keyword, mode: 'insensitive' } },
+      ];
+    }
+    if (filters.minPrice) {
+      where.price = { gte: filters.minPrice };
+    }
+    if (filters.maxPrice) {
+      where.price = { ...where.price, lte: filters.maxPrice };
+    }
+    if (filters.minArea) {
+      where.area = { gte: filters.minArea };
+    }
+    if (filters.maxArea) {
+      where.area = { ...where.area, lte: filters.maxArea };
+    }
+    if (filters.bedrooms) {
+      where.bedrooms = filters.bedrooms;
+    }
+    if (filters.propertyType) {
+      where.type = filters.propertyType;
+    }
+
+    const orderBy: Prisma.PropertyOrderByWithRelationInput | undefined =
+      filters.sort === 'newest' ? { id: 'desc' } : undefined;
+    const take = filters.limit ?? 10;
+
+    return this.prisma.property.findMany({
+      where,
+      orderBy,
+      take,
+    });
+  }
+
+  async findOne(id: number) {
+    return this.prisma.property.findUnique({ where: { id } });
+  }
 
   async create(data: CreatePropertyDto) {
     return this.prisma.property.create({ data });
   }
 
-  async findAll() {
-    return this.prisma.property.findMany();
-  }
-
-  async findOne(id: number) {
-    const property = await this.prisma.property.findUnique({ where: { id } });
-    if (!property) {
-      throw new NotFoundException(`Property with id ${id} not found`);
-    }
-    return property;
-  }
-
   async update(id: number, data: UpdatePropertyDto) {
-    // Kiểm tra property có tồn tại
-    await this.findOne(id);
-
     return this.prisma.property.update({
       where: { id },
       data,
@@ -34,11 +65,6 @@ export class PropertyService {
   }
 
   async remove(id: number) {
-    // Kiểm tra property có tồn tại
-    await this.findOne(id);
-
-    return this.prisma.property.delete({
-      where: { id },
-    });
+    return this.prisma.property.delete({ where: { id } });
   }
 }

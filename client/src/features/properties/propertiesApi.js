@@ -7,8 +7,23 @@ export const propertiesApi = createApi({
   tagTypes: ['Properties'],
   endpoints: (builder) => ({
     getProperties: builder.query({
-      query: ({ limit = 10, sort = 'newest' } = {}) =>
-        `/properties?limit=${limit}&sort=${sort}`,
+      query: (params = {}) => {
+        const { limit = 10, sort = 'newest', keyword, minPrice, maxPrice, minArea, maxArea, bedrooms, propertyType } = params;
+        const queryParams = new URLSearchParams();
+
+        queryParams.append('limit', limit);
+        queryParams.append('sort', sort);
+
+        if (keyword) queryParams.append('keyword', keyword);
+        if (minPrice) queryParams.append('minPrice', minPrice);
+        if (maxPrice) queryParams.append('maxPrice', maxPrice);
+        if (minArea) queryParams.append('minArea', minArea);
+        if (maxArea) queryParams.append('maxArea', maxArea);
+        if (bedrooms) queryParams.append('bedrooms', bedrooms);
+        if (propertyType) queryParams.append('propertyType', propertyType);
+
+        return `/properties?${queryParams.toString()}`;
+      },
       providesTags: ['Properties'],
     }),
     getPropertyById: builder.query({

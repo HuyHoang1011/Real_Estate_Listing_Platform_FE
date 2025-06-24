@@ -34,6 +34,7 @@ model Property {
   bathrooms   Int
   contacts    Contact[]
   favorites   Favorite[]
+  
 }
 
 model Contact {

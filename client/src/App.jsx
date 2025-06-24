@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import PropertyDetail from './pages/PropertyDetail';
+import Profile from './pages/Profile';
+import Properties from './pages/Properties';
 
 export default function App() {
   useAuthLoad();  // load user khi app start
@@ -41,7 +43,9 @@ export default function App() {
         ) : (
           <>
             <Route path="/home" element={<Home />} />
+            <Route path="/properties" element={<Properties />} />
             <Route path="*" element={<Navigate to="/home" replace />} />
+            {/* <Route path="/profile" element={<Profile />} />  */}
             <Route path="/properties/:id" element={<PropertyDetail />} />
           </>
         )}
