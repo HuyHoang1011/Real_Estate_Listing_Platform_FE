@@ -2,14 +2,40 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service';
-import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
+
+  async refreshToken(token: string) {
+    try {
+      // Giải mã refresh token
+      const payload = this.jwtService.verify(token, {
+        secret: process.env.JWT_REFRESH_SECRET, // Biến môi trường cho refresh token
+      });
+
+      // Lấy user theo payload
+      const user = await this.usersService.findById(payload.sub);
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+
+      // Tạo access token mới
+      const newPayload = {
+        sub: user.id,
+        email: user.email,
+        role: user.role,
+      };
+      const access_token = this.jwtService.sign(newPayload);
+
+      return { access_token };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
 
   async validateUser(email: string, pass: string) {
     const user = await this.usersService.findByEmail(email);
@@ -21,38 +47,27 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id, role: user.role };
+    const payload = {
+      sub: user.id,           // Dùng sub thay vì id
+      email: user.email,
+      role: user.role,
+      permissions: user.permissions,  // Nếu bạn có dùng
+    };
     return {
-      access_token: this.jwtService.sign(payload, { expiresIn: '15m' }),
-      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      access_token: this.jwtService.sign(payload),
       user,
     };
   }
 
-  async register(data: CreateUserDto) {
+  // Hàm đăng ký (register) cũng nên hash password và tạo user
+  async register(data: { name: string; email: string; password: string; phone?: string }) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const createUserData = {
+    const user = await this.usersService.create({
       ...data,
       password: hashedPassword,
       role: 'user',
-    };
-    const user = await this.usersService.create(createUserData);
+    });
     const { password, ...result } = user;
     return result;
-  }
-
-  async refreshToken(token: string) {
-    try {
-      const payload = this.jwtService.verify(token);
-      const user = await this.usersService.findById(payload.sub);
-      if (!user) throw new UnauthorizedException('User not found');
-
-      const newPayload = { email: user.email, sub: user.id, role: user.role };
-      return {
-        access_token: this.jwtService.sign(newPayload, { expiresIn: '15m' }),
-      };
-    } catch (err) {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
   }
 }
