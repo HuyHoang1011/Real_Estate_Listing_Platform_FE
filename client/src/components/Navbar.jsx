@@ -25,7 +25,10 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <li><Link to="/admin" className="hover:text-blue-500 cursor-pointer">Admin Dashboard</Link></li>
+            <li><Link to="/admin" className="hover:text-blue-500 cursor-pointer">Admin Home</Link></li>
+            <li><Link to="/admin/properties" className="hover:text-blue-500 cursor-pointer">Admin Property</Link></li>
+            <li><Link to="/admin/users" className="hover:text-blue-500 cursor-pointer">Admin User</Link></li>
+
           </>
         )}
         <li>

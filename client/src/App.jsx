@@ -7,7 +7,9 @@ import Auth from "./pages/Auth";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Home from "./pages/Home";
-import AdminDashboard from "./admin/AdminDashboard";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import AdminProperties from "./admin/pages/AdminProperties";
+import AdminUsers from "./admin/pages/AdminUsers";
 import Navbar from "./components/Navbar";
 import PropertyDetail from './pages/PropertyDetail';
 import Profile from './pages/Profile';
@@ -39,6 +41,8 @@ export default function App() {
           <>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="*" element={<Navigate to="/admin" replace />} />
+            <Route path="/admin/properties" element={<AdminProperties />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
           </>
         ) : (
           <>

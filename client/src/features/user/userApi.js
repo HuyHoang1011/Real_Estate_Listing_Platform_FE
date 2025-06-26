@@ -29,7 +29,31 @@ export const userApi = createApi({
             }),
             invalidatesTags: ['User'],
         }),
+        createUser: builder.mutation({
+            query: (newUser) => ({
+                url: '/users',       // endpoint backend tạo user (cần có)
+                method: 'POST',
+                body: newUser,
+            }),
+            invalidatesTags: ['User'],
+        }),
+        // Thêm endpoint cập nhật user (không phải profile, update theo id)
+        updateUser: builder.mutation({
+            query: ({ id, ...patch }) => ({
+                url: `/users/${id}`,
+                method: 'PUT',
+                body: patch,
+            }),
+            invalidatesTags: ['User'],
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                url: `/users/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['User'],
+        }),
     }),
 });
 
-export const { useGetUserProfileQuery, useUpdateUserProfileMutation } = userApi;
+export const { useGetUserProfileQuery, useUpdateUserProfileMutation, useCreateUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;
