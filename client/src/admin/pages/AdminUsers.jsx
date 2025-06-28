@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useGetUserProfileQuery, useDeleteUserMutation } from '../../features/user/userApi';
+import { useGetAllUsersQuery, useDeleteUserMutation } from '../../features/user/userApi';
 import UserForm from '../components/UserForm';
 
 export default function AdminUsers() {
-  const { data: users, isLoading, error } = useGetUserProfileQuery();
+  const { data: users, isLoading, error } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
 
   const [editingUser, setEditingUser] = useState(null);
@@ -21,12 +21,21 @@ export default function AdminUsers() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Bạn chắc chắn muốn xóa người dùng này?')) {
-      await deleteUser(id);
+      try {
+        await deleteUser(id).unwrap();
+        // Success - the query will automatically refetch due to invalidatesTags
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('Lỗi khi xóa người dùng: ' + (error.data?.message || error.message || 'Lỗi không xác định'));
+      }
     }
   };
 
   if (isLoading) return <p>Đang tải danh sách người dùng...</p>;
   if (error) return <p>Lỗi tải dữ liệu người dùng.</p>;
+
+  // Ensure users is always an array
+  const userList = Array.isArray(users) ? users : [];
 
   return (
     <div className="p-6">
@@ -53,7 +62,7 @@ export default function AdminUsers() {
           </tr>
         </thead>
         <tbody>
-          {(users || []).map((u) => (
+          {userList.map((u) => (
             <tr key={u.id}>
               <td className="border border-gray-300 p-2">{u.name}</td>
               <td className="border border-gray-300 p-2">{u.email}</td>

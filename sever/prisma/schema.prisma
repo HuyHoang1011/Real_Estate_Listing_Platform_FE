@@ -15,8 +15,8 @@ model User {
   role      String   @default("user")
   phone     String?
   avatar    String?
-  favorites Favorite[]
-  contacts  Contact[]
+  favorites Favorite[] @relation("UserFavorites")
+  contacts  Contact[]  @relation("UserContacts")
 }
 
 model Property {
@@ -32,8 +32,8 @@ model Property {
   images      String[]
   bedrooms    Int
   bathrooms   Int
-  contacts    Contact[]
-  favorites   Favorite[]
+  contacts    Contact[]  @relation("PropertyContacts")
+  favorites   Favorite[] @relation("PropertyFavorites")
   
 }
 
@@ -43,14 +43,14 @@ model Contact {
   propertyId Int
   message    String
   status     String   @default("pending")
-  user       User     @relation(fields: [userId], references: [id])
-  property   Property @relation(fields: [propertyId], references: [id])
+  user       User     @relation("UserContacts", fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation("PropertyContacts", fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {
   id         Int      @id @default(autoincrement())
   userId     Int
   propertyId Int
-  user       User     @relation(fields: [userId], references: [id])
-  property   Property @relation(fields: [propertyId], references: [id])
+  user       User     @relation("UserFavorites", fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation("PropertyFavorites", fields: [propertyId], references: [id], onDelete: Cascade)
 }

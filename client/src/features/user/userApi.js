@@ -4,9 +4,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:3000',
     prepareHeaders: (headers) => {
-        const token = localStorage.getItem('access_token'); // hoặc lấy từ redux state
+        const token = localStorage.getItem('access_token');
+        console.log('Token from localStorage:', token);
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
+            console.log('Authorization header set:', `Bearer ${token}`);
+        } else {
+            console.log('No token found in localStorage');
         }
         return headers;
     },
@@ -19,6 +23,10 @@ export const userApi = createApi({
     endpoints: (builder) => ({
         getUserProfile: builder.query({
             query: () => '/users/me',
+            providesTags: ['User'],
+        }),
+        getAllUsers: builder.query({
+            query: () => '/users',
             providesTags: ['User'],
         }),
         updateUserProfile: builder.mutation({
@@ -56,4 +64,4 @@ export const userApi = createApi({
     }),
 });
 
-export const { useGetUserProfileQuery, useUpdateUserProfileMutation, useCreateUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;
+export const { useGetUserProfileQuery, useGetAllUsersQuery, useUpdateUserProfileMutation, useCreateUserMutation, useUpdateUserMutation, useDeleteUserMutation } = userApi;
