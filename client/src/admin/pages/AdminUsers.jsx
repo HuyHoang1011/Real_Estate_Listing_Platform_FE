@@ -2,8 +2,34 @@ import React, { useState } from 'react';
 import { useGetAllUsersQuery, useDeleteUserMutation } from '../../features/user/userApi';
 import UserForm from '../components/UserForm';
 
+function UserSearchBar({ onSearch, onReset }) {
+  const [keyword, setKeyword] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch({ keyword });
+  };
+  const handleClear = () => {
+    setKeyword('');
+    onReset();
+  };
+  return (
+    <form onSubmit={handleSubmit} className="mb-4 flex gap-2">
+      <input
+        type="text"
+        placeholder="Tìm kiếm theo tên hoặc email..."
+        value={keyword}
+        onChange={e => setKeyword(e.target.value)}
+        className="px-3 py-2 border rounded w-64"
+      />
+      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tìm kiếm</button>
+      <button type="button" onClick={handleClear} className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400">Xóa lọc</button>
+    </form>
+  );
+}
+
 export default function AdminUsers() {
-  const { data: users, isLoading, error } = useGetAllUsersQuery();
+  const [filters, setFilters] = useState({});
+  const { data: users, isLoading, error } = useGetAllUsersQuery(filters);
   const [deleteUser] = useDeleteUserMutation();
 
   const [editingUser, setEditingUser] = useState(null);
@@ -31,6 +57,13 @@ export default function AdminUsers() {
     }
   };
 
+  const handleSearch = (searchFilters) => {
+    setFilters(searchFilters);
+  };
+  const handleReset = () => {
+    setFilters({});
+  };
+
   if (isLoading) return <p>Đang tải danh sách người dùng...</p>;
   if (error) return <p>Lỗi tải dữ liệu người dùng.</p>;
 
@@ -40,6 +73,7 @@ export default function AdminUsers() {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Quản lý Người dùng</h2>
+      <UserSearchBar onSearch={handleSearch} onReset={handleReset} />
       <button onClick={handleAdd} className="mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
         Thêm người dùng mới
       </button>

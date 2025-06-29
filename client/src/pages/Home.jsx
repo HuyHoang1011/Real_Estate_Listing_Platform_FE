@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   // Lấy dữ liệu 8 bất động sản mới nhất từ RTK Query
-  const { data: properties = [], error, isLoading } = useGetPropertiesQuery({ limit: 8, sort: 'newest' });
+  const { data, error, isLoading } = useGetPropertiesQuery({ limit: 8, sort: 'newest' });
+  const properties = data?.data || [];
   const navigate = useNavigate();
 
   const handleShowMore = () => {
@@ -36,7 +37,7 @@ export default function Home() {
             onClick={handleShowMore}
             className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
           >
-            Show More
+            Xem thêm
           </button>
         </div>
       </section>

@@ -3,11 +3,24 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:3000',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['Contacts'],
   endpoints: (builder) => ({
     getContacts: builder.query({
       query: (userId) => `/contacts?userId=${userId}`,
+      providesTags: ['Contacts'],
+    }),
+    getAllContacts: builder.query({
+      query: () => '/contacts',
       providesTags: ['Contacts'],
     }),
     createContact: builder.mutation({
@@ -38,6 +51,7 @@ export const contactsApi = createApi({
 
 export const {
   useGetContactsQuery,
+  useGetAllContactsQuery,
   useCreateContactMutation,
   useUpdateContactMutation,
   useDeleteContactMutation,

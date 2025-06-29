@@ -22,34 +22,81 @@ export class PropertyService {
         { streetAddress: { contains: filters.keyword, mode: 'insensitive' } },
       ];
     }
-    if (filters.minPrice) {
-      where.price = { gte: filters.minPrice };
+
+    // Individual location filters
+    if (filters.province) {
+      where.province = { contains: filters.province, mode: 'insensitive' };
     }
-    if (filters.maxPrice) {
-      where.price = { ...where.price, lte: filters.maxPrice };
+    if (filters.district) {
+      where.district = { contains: filters.district, mode: 'insensitive' };
     }
-    if (filters.minArea) {
-      where.area = { gte: filters.minArea };
+    if (filters.ward) {
+      where.ward = { contains: filters.ward, mode: 'insensitive' };
     }
-    if (filters.maxArea) {
-      where.area = { ...where.area, lte: filters.maxArea };
+
+    // Price filters
+    if (filters.minPrice || filters.maxPrice) {
+      where.price = {};
+      if (filters.minPrice) {
+        where.price.gte = filters.minPrice;
+      }
+      if (filters.maxPrice) {
+        where.price.lte = filters.maxPrice;
+      }
     }
+
+    // Area filters
+    if (filters.minArea || filters.maxArea) {
+      where.area = {};
+      if (filters.minArea) {
+        where.area.gte = filters.minArea;
+      }
+      if (filters.maxArea) {
+        where.area.lte = filters.maxArea;
+      }
+    }
+
+    // Bedrooms filter
     if (filters.bedrooms) {
       where.bedrooms = filters.bedrooms;
     }
+
+    // Property type filter
     if (filters.propertyType) {
       where.type = filters.propertyType;
     }
 
-    const orderBy: Prisma.PropertyOrderByWithRelationInput | undefined =
-      filters.sort === 'newest' ? { id: 'desc' } : undefined;
-    const take = filters.limit ?? 10;
+    // Sorting
+    let orderBy: Prisma.PropertyOrderByWithRelationInput | undefined;
+    if (filters.sort === 'newest') {
+      orderBy = { id: 'desc' };
+    } else if (filters.sort === 'oldest') {
+      orderBy = { id: 'asc' };
+    } else if (filters.sort === 'price_asc') {
+      orderBy = { price: 'asc' };
+    } else if (filters.sort === 'price_desc') {
+      orderBy = { price: 'desc' };
+    } else if (filters.sort === 'area_asc') {
+      orderBy = { area: 'asc' };
+    } else if (filters.sort === 'area_desc') {
+      orderBy = { area: 'desc' };
+    }
 
-    return this.prisma.property.findMany({
-      where,
-      orderBy,
-      take,
-    });
+    const take = filters.limit ?? 10;
+    const page = filters.page ?? 1;
+    const skip = (page - 1) * take;
+
+    const [data, total] = await Promise.all([
+      this.prisma.property.findMany({
+        where,
+        orderBy,
+        take,
+        skip,
+      }),
+      this.prisma.property.count({ where }),
+    ]);
+
+    return { data, total };
   }
 
   async findOne(id: number) {

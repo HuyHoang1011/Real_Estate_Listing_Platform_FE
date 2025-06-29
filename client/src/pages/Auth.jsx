@@ -10,13 +10,13 @@ export default function Auth() {
           to="/auth/login"
           className="py-2 px-6 font-semibold rounded-md bg-blue-600 text-white shadow-md hover:bg-blue-700 transition"
         >
-          Login
+          Đăng nhập
         </Link>
         <Link
           to="/auth/register"
           className="py-2 px-6 font-semibold rounded-md bg-green-600 text-white shadow-md hover:bg-green-700 transition"
         >
-          Register
+          Đăng ký
         </Link>
       </div>
 

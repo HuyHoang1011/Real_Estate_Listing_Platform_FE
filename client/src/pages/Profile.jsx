@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGetUserProfileQuery, useUpdateUserProfileMutation } from '../features/user/userApi';
+import { useGetFavoritesQuery } from '../features/favorites/favoritesApi';
+import PropertyCard from '../components/PropertyCard';
 
 export default function Profile() {
   const { data: user, isLoading, isError } = useGetUserProfileQuery();
@@ -11,6 +13,9 @@ export default function Profile() {
     phone: '',
     avatar: '', // URL avatar lấy từ DB
   });
+
+  // Lấy danh sách favorite
+  const { data: favorites, isLoading: isLoadingFavorites } = useGetFavoritesQuery();
 
   useEffect(() => {
     if (user) {
@@ -102,6 +107,22 @@ export default function Profile() {
           {updateError && <p className="text-red-600 mt-2">Cập nhật thất bại!</p>}
         </div>
       </form>
+
+      {/* Favorite Properties Section */}
+      <div className="mt-12">
+        <h3 className="text-xl font-bold mb-4">Bất động sản yêu thích</h3>
+        {isLoadingFavorites ? (
+          <p>Đang tải danh sách yêu thích...</p>
+        ) : favorites && favorites.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {favorites.map((fav) => fav.property && (
+              <PropertyCard key={fav.propertyId} property={fav.property} hideFavorite />
+            ))}
+          </div>
+        ) : (
+          <p>Bạn chưa có bất động sản yêu thích nào.</p>
+        )}
+      </div>
     </div>
   );
 }
