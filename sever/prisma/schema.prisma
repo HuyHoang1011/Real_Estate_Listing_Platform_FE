@@ -25,7 +25,10 @@ model Property {
   description String
   price       Float
   area        Float
-  location    String
+  province    String
+  district    String
+  ward        String
+  streetAddress String
   latitude    Float
   longitude   Float
   type        String

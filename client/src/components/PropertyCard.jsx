@@ -41,7 +41,9 @@ export default function PropertyCard({ property }) {
       {/* Thông tin property */}
       <img src={property.images[0]} alt={property.title} className="w-full h-48 object-cover rounded" />
       <h3 className="text-xl font-semibold mt-2">{property.title}</h3>
-      <p className="text-gray-600 mt-1">{property.location}</p>
+      <p className="text-gray-600 mt-1">
+        {property.streetAddress}, {property.ward}, {property.district}, {property.province}
+      </p>
       <p className="mt-2 font-bold">{property.price} tỷ</p>
       {/* Thêm các thông tin khác nếu muốn */}
     </div>

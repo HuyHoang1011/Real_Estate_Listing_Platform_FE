@@ -16,7 +16,10 @@ export class PropertyService {
       where.OR = [
         { title: { contains: filters.keyword, mode: 'insensitive' } },
         { description: { contains: filters.keyword, mode: 'insensitive' } },
-        { location: { contains: filters.keyword, mode: 'insensitive' } },
+        { province: { contains: filters.keyword, mode: 'insensitive' } },
+        { district: { contains: filters.keyword, mode: 'insensitive' } },
+        { ward: { contains: filters.keyword, mode: 'insensitive' } },
+        { streetAddress: { contains: filters.keyword, mode: 'insensitive' } },
       ];
     }
     if (filters.minPrice) {

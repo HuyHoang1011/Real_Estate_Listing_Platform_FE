@@ -35,7 +35,19 @@ export class CreatePropertyDto {
 
     @IsString()
     @IsNotEmpty()
-    location: string;
+    province: string;
+
+    @IsString()
+    @IsNotEmpty()
+    district: string;
+
+    @IsString()
+    @IsNotEmpty()
+    ward: string;
+
+    @IsString()
+    @IsNotEmpty()
+    streetAddress: string;
 
     @IsNumber()
     latitude: number;

@@ -8,6 +8,10 @@ const propertySchema = Yup.object({
   price: Yup.number().required('Bắt buộc nhập giá').positive(),
   area: Yup.number().required('Bắt buộc nhập diện tích').positive(),
   type: Yup.string().required('Chọn loại bất động sản'),
+  province: Yup.string().required('Bắt buộc nhập tỉnh/thành phố'),
+  district: Yup.string().required('Bắt buộc nhập quận/huyện'),
+  ward: Yup.string().required('Bắt buộc nhập phường/xã'),
+  streetAddress: Yup.string().required('Bắt buộc nhập địa chỉ đường'),
   // Thêm các trường khác nếu cần
 });
 
@@ -21,6 +25,10 @@ export default function PropertyForm({ property, onClose }) {
       price: property?.price || '',
       area: property?.area || '',
       type: property?.type || '',
+      province: property?.province || '',
+      district: property?.district || '',
+      ward: property?.ward || '',
+      streetAddress: property?.streetAddress || '',
     },
     validationSchema: propertySchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -89,6 +97,50 @@ export default function PropertyForm({ property, onClose }) {
         </select>
         {formik.errors.type && formik.touched.type && (
           <p className="text-red-600 text-sm">{formik.errors.type}</p>
+        )}
+
+        <input
+          name="province"
+          placeholder="Tỉnh/Thành phố"
+          value={formik.values.province}
+          onChange={formik.handleChange}
+          className="w-full px-3 py-2 border rounded"
+        />
+        {formik.errors.province && formik.touched.province && (
+          <p className="text-red-600 text-sm">{formik.errors.province}</p>
+        )}
+
+        <input
+          name="district"
+          placeholder="Quận/Huyện"
+          value={formik.values.district}
+          onChange={formik.handleChange}
+          className="w-full px-3 py-2 border rounded"
+        />
+        {formik.errors.district && formik.touched.district && (
+          <p className="text-red-600 text-sm">{formik.errors.district}</p>
+        )}
+
+        <input
+          name="ward"
+          placeholder="Phường/Xã"
+          value={formik.values.ward}
+          onChange={formik.handleChange}
+          className="w-full px-3 py-2 border rounded"
+        />
+        {formik.errors.ward && formik.touched.ward && (
+          <p className="text-red-600 text-sm">{formik.errors.ward}</p>
+        )}
+
+        <input
+          name="streetAddress"
+          placeholder="Số nhà, tên đường"
+          value={formik.values.streetAddress}
+          onChange={formik.handleChange}
+          className="w-full px-3 py-2 border rounded"
+        />
+        {formik.errors.streetAddress && formik.touched.streetAddress && (
+          <p className="text-red-600 text-sm">{formik.errors.streetAddress}</p>
         )}
 
         <div className="flex justify-end space-x-2">

@@ -53,7 +53,7 @@ export default function PropertyDetail() {
               {property.price.toLocaleString()} VND
             </p>
             <p className="mb-2">
-              <strong>Vị trí:</strong> {property.location}
+              <strong>Vị trí:</strong> {property.streetAddress}, {property.ward}, {property.district}, {property.province}
             </p>
             <p className="mb-2">
               <strong>Diện tích:</strong> {property.area} m²
@@ -80,14 +80,14 @@ export default function PropertyDetail() {
 
       {/* Bản đồ Google Maps (nếu đã tích hợp API) */}
       {/* Ví dụ đơn giản nhúng iframe */}
-      {property.location && (
+      {property.streetAddress && (
         <div className="mt-10">
           <h2 className="text-2xl font-semibold mb-4">Vị trí trên bản đồ</h2>
           <div className="aspect-w-16 aspect-h-9 rounded overflow-hidden shadow">
             <iframe
               title="Google Maps"
               src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                property.location
+                `${property.streetAddress}, ${property.ward}, ${property.district}, ${property.province}`
               )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
               allowFullScreen
               loading="lazy"
