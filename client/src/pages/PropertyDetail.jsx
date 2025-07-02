@@ -1,18 +1,55 @@
 // src/pages/PropertyDetail.jsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useGetPropertyByIdQuery } from '../features/properties/propertiesApi';
+import { useCreateContactMutation } from '../features/contacts/contactsApi';
+import ContactForm from '../components/ContactForm';
 
 export default function PropertyDetail() {
   const { id } = useParams();
   const { data: property, error, isLoading } = useGetPropertyByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [createContact, { isLoading: isSubmitting }] = useCreateContactMutation();
+  
+  // Get auth state from Redux
+  const { user, accessToken } = useSelector((state) => state.auth);
 
   if (isLoading) return <p className="text-center mt-20">Đang tải chi tiết bất động sản...</p>;
   if (error) return <p className="text-center mt-20 text-red-600">Lỗi tải dữ liệu. Vui lòng thử lại.</p>;
   if (!property) return <p className="text-center mt-20">Không tìm thấy bất động sản.</p>;
 
   const images = property.images || [];
+
+  const handleContactClick = () => {
+    if (!user || !accessToken) {
+      setShowAuthPrompt(true);
+    } else {
+      setShowContactModal(true);
+    }
+  };
+
+  const handleContactSubmit = async (contactData) => {
+    try {
+      await createContact({
+        propertyId: parseInt(id),
+        message: contactData.message
+      }).unwrap();
+      
+      alert('Tin nhắn đã được gửi thành công! Chúng tôi sẽ liên hệ lại với bạn sớm nhất.');
+      setShowContactModal(false);
+    } catch (error) {
+      alert('Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại.');
+      console.error('Contact submission error:', error);
+    }
+  };
+
+  const handleLoginRedirect = () => {
+    // Redirect to login page
+    window.location.href = '/auth';
+  };
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-6xl">
@@ -70,10 +107,11 @@ export default function PropertyDetail() {
 
           {/* Nút liên hệ */}
           <button
-            onClick={() => alert('Chức năng liên hệ đang phát triển!')}
-            className="mt-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
+            onClick={handleContactClick}
+            disabled={isSubmitting}
+            className="mt-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition disabled:bg-gray-400"
           >
-            Liên hệ người bán
+            {isSubmitting ? 'Đang gửi...' : 'Liên hệ người bán'}
           </button>
         </div>
       </div>
@@ -93,6 +131,74 @@ export default function PropertyDetail() {
               loading="lazy"
               className="w-full h-full border-0"
             />
+          </div>
+        </div>
+      )}
+
+      {/* Modal liên hệ */}
+      {showContactModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Liên hệ người bán</h2>
+              <button
+                onClick={() => setShowContactModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="mb-4 p-3 bg-gray-50 rounded">
+              <p className="text-sm text-gray-600">
+                <strong>Bất động sản:</strong> {property.title}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Giá:</strong> {property.price.toLocaleString()} VND
+              </p>
+            </div>
+
+            <ContactForm
+              propertyId={parseInt(id)}
+              onSubmit={handleContactSubmit}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Modal yêu cầu đăng nhập */}
+      {showAuthPrompt && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Yêu cầu đăng nhập</h2>
+              <button
+                onClick={() => setShowAuthPrompt(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="mb-6">
+              <p className="text-gray-600 mb-4">
+                Để liên hệ với người bán, bạn cần đăng nhập vào tài khoản của mình.
+              </p>
+              <div className="space-y-3">
+                <button
+                  onClick={handleLoginRedirect}
+                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200"
+                >
+                  Đăng nhập / Đăng ký
+                </button>
+                <button
+                  onClick={() => setShowAuthPrompt(false)}
+                  className="w-full py-2 text-gray-600 hover:text-gray-800 transition duration-200"
+                >
+                  Hủy
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

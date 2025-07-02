@@ -28,6 +28,7 @@ export default function Navbar() {
             <li><Link to="/admin" className="hover:text-blue-500 cursor-pointer">Trang quản trị</Link></li>
             <li><Link to="/admin/properties" className="hover:text-blue-500 cursor-pointer">Quản lý BĐS</Link></li>
             <li><Link to="/admin/users" className="hover:text-blue-500 cursor-pointer">Quản lý người dùng</Link></li>
+            <li><Link to="/admin/contacts" className="hover:text-blue-500 cursor-pointer">Quản lý liên hệ</Link></li>
           </>
         )}
         <li>

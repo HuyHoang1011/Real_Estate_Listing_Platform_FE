@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 import AdminProperties from "./admin/pages/AdminProperties";
 import AdminUsers from "./admin/pages/AdminUsers";
+import AdminContacts from "./admin/pages/AdminContacts";
 import Navbar from "./components/Navbar";
 import PropertyDetail from './pages/PropertyDetail';
 import Profile from './pages/Profile';
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/admin" replace />} />
             <Route path="/admin/properties" element={<AdminProperties />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/contacts" element={<AdminContacts />} />
           </>
         ) : (
           <>
