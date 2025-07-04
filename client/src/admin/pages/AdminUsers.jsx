@@ -21,7 +21,7 @@ function UserSearchBar({ onSearch, onReset }) {
         onChange={e => setKeyword(e.target.value)}
         className="px-3 py-2 border rounded w-64"
       />
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tìm kiếm</button>
+      <button type="submit" className="bg-primary text-white px-4 py-2 rounded hover:bg-primary-hover">Tìm kiếm</button>
       <button type="button" onClick={handleClear} className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400">Xóa lọc</button>
     </form>
   );
@@ -105,7 +105,7 @@ export default function AdminUsers() {
               <td className="border border-gray-300 p-2 space-x-2">
                 <button
                   onClick={() => handleEdit(u)}
-                  className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
+                  className="bg-primary text-white px-2 py-1 rounded hover:bg-primary-hover"
                 >
                   Sửa
                 </button>

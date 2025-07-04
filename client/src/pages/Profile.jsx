@@ -76,7 +76,7 @@ export default function Profile() {
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <input
             name="email"
@@ -94,12 +94,12 @@ export default function Profile() {
             placeholder="Số điện thoại"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <button
             type="submit"
             disabled={isUpdating}
-            className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            className="w-full py-2 bg-cta text-white rounded hover:bg-cta-hover transition"
           >
             {isUpdating ? 'Đang cập nhật...' : 'Cập nhật'}
           </button>

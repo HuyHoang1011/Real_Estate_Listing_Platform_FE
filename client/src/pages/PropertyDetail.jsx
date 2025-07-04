@@ -73,7 +73,7 @@ export default function PropertyDetail() {
                   alt={`${property.title} ${idx + 1}`}
                   className={`w-20 h-20 object-cover rounded cursor-pointer border-2 ${
                     selectedImage === img || (!selectedImage && idx === 0)
-                      ? 'border-blue-600'
+                      ? 'border-primary'
                       : 'border-transparent'
                   }`}
                   onClick={() => setSelectedImage(img)}
@@ -86,7 +86,7 @@ export default function PropertyDetail() {
         {/* Thông tin chi tiết bên phải */}
         <div className="md:w-1/3 flex flex-col justify-between">
           <div>
-            <p className="text-3xl font-semibold text-blue-600 mb-4">
+            <p className="text-3xl font-semibold text-primary mb-4">
               {property.price.toLocaleString()} VND
             </p>
             <p className="mb-2">
@@ -109,7 +109,7 @@ export default function PropertyDetail() {
           <button
             onClick={handleContactClick}
             disabled={isSubmitting}
-            className="mt-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition disabled:bg-gray-400"
+            className="mt-6 py-3 bg-cta text-white font-semibold rounded hover:bg-cta-hover transition disabled:bg-gray-400"
           >
             {isSubmitting ? 'Đang gửi...' : 'Liên hệ người bán'}
           </button>
@@ -187,7 +187,7 @@ export default function PropertyDetail() {
               <div className="space-y-3">
                 <button
                   onClick={handleLoginRedirect}
-                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200"
+                  className="w-full py-3 bg-cta text-white font-semibold rounded-md hover:bg-cta-hover transition duration-200"
                 >
                   Đăng nhập / Đăng ký
                 </button>

@@ -125,7 +125,7 @@ export default function SearchBar({ onSearch, onReset }) {
   const activeFiltersCount = Object.values(filters).filter(value => value !== '' && value !== 'newest').length;
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-200 mb-6">
+    <div className="bg-accent-light rounded-lg shadow-lg border border-accent mb-6">
       {/* Main Search Bar */}
       <form onSubmit={handleSubmit} className="p-4">
         <div className="flex flex-col lg:flex-row gap-4">
@@ -137,7 +137,7 @@ export default function SearchBar({ onSearch, onReset }) {
               placeholder="Tìm kiếm theo tên, địa chỉ..."
               value={filters.keyword}
               onChange={(e) => handleInputChange('keyword', e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>
 
@@ -146,7 +146,7 @@ export default function SearchBar({ onSearch, onReset }) {
             <select
               value={filters.propertyType}
               onChange={(e) => handleInputChange('propertyType', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               {PROPERTY_TYPES.map((type) => (
                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -163,7 +163,7 @@ export default function SearchBar({ onSearch, onReset }) {
                 handleInputChange('district', '');
                 handleInputChange('ward', '');
               }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               {PROVINCES.map((province) => (
                 <option key={province.value} value={province.value}>{province.label}</option>
@@ -175,7 +175,7 @@ export default function SearchBar({ onSearch, onReset }) {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-cta text-white rounded-lg hover:bg-cta-hover transition-colors flex items-center gap-2"
             >
               <FiSearch />
               Tìm kiếm
@@ -183,12 +183,12 @@ export default function SearchBar({ onSearch, onReset }) {
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+              className="px-4 py-3 border border-gray-300 rounded-lg hover:bg-accent transition-colors flex items-center gap-2"
             >
               <FiFilter />
               Bộ lọc
               {activeFiltersCount > 0 && (
-                <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {activeFiltersCount}
                 </span>
               )}
@@ -198,7 +198,7 @@ export default function SearchBar({ onSearch, onReset }) {
 
         {/* Advanced Filters */}
         {isExpanded && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="mt-6 pt-6 border-t border-accent">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
               {/* District */}
               <div className="col-span-1 min-w-0">
@@ -206,7 +206,7 @@ export default function SearchBar({ onSearch, onReset }) {
                 <select
                   value={filters.district}
                   onChange={(e) => handleInputChange('district', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                   disabled={!filters.province}
                 >
                   {(DISTRICTS[filters.province] || [{ value: '', label: 'Chọn tỉnh/thành trước' }]).map((district) => (
@@ -223,7 +223,7 @@ export default function SearchBar({ onSearch, onReset }) {
                   placeholder="Nhập phường/xã..."
                   value={filters.ward}
                   onChange={(e) => handleInputChange('ward', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                 />
               </div>
 
@@ -236,14 +236,14 @@ export default function SearchBar({ onSearch, onReset }) {
                     placeholder="Từ"
                     value={filters.minPrice}
                     onChange={(e) => handleInputChange('minPrice', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                   />
                   <input
                     type="number"
                     placeholder="Đến"
                     value={filters.maxPrice}
                     onChange={(e) => handleInputChange('maxPrice', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                   />
                 </div>
               </div>
@@ -257,14 +257,14 @@ export default function SearchBar({ onSearch, onReset }) {
                     placeholder="Từ"
                     value={filters.minArea}
                     onChange={(e) => handleInputChange('minArea', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                   />
                   <input
                     type="number"
                     placeholder="Đến"
                     value={filters.maxArea}
                     onChange={(e) => handleInputChange('maxArea', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                   />
                 </div>
               </div>
@@ -275,7 +275,7 @@ export default function SearchBar({ onSearch, onReset }) {
                 <select
                   value={filters.bedrooms}
                   onChange={(e) => handleInputChange('bedrooms', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                 >
                   <option value="">Tất cả</option>
                   <option value="1">1 phòng</option>
@@ -292,7 +292,7 @@ export default function SearchBar({ onSearch, onReset }) {
                 <select
                   value={filters.sort}
                   onChange={(e) => handleInputChange('sort', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-0"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-w-0"
                 >
                   {SORT_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>{option.label}</option>
@@ -306,7 +306,7 @@ export default function SearchBar({ onSearch, onReset }) {
               <button
                 type="button"
                 onClick={handleReset}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex items-center gap-2"
+                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-accent transition-colors flex items-center gap-2"
               >
                 <FiX />
                 Xóa bộ lọc

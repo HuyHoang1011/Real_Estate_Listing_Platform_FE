@@ -42,7 +42,7 @@ export default function Properties() {
       {/* Loading State */}
       {isLoading && (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Đang tải danh sách bất động sản...</p>
         </div>
       )}
@@ -93,7 +93,7 @@ export default function Properties() {
                     <button
                       key={p}
                       onClick={() => handlePageChange(p)}
-                      className={`px-3 py-1 rounded border ${p === page ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-100'}`}
+                      className={`px-3 py-1 rounded border ${p === page ? 'bg-primary text-white' : 'bg-white hover:bg-gray-100'}`}
                     >
                       {p}
                     </button>
@@ -130,7 +130,7 @@ export default function Properties() {
                 </div>
                 <button
                   onClick={handleReset}
-                  className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="mt-6 px-6 py-2 bg-cta text-white rounded-lg hover:bg-cta-hover transition-colors"
                 >
                   Xóa bộ lọc
                 </button>

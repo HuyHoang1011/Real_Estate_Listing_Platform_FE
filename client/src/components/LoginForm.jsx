@@ -44,12 +44,12 @@ export default function LoginForm() {
       <h2 className="text-2xl font-bold text-center mb-6">Đăng nhập tài khoản</h2>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         {formik.status && (
-          <div className="flex items-center gap-2 text-red-600 font-semibold bg-red-100 p-3 rounded">
+          <div className="flex items-center gap-2 text-cta font-semibold bg-accent-light p-3 rounded">
             <span>❗</span>
             <span>{formik.status}</span>
           </div>
         )}
-        {error && <div className="flex items-center gap-2 text-red-600 font-semibold bg-red-100 p-3 rounded"><span>❗</span><span>{error}</span></div>}
+        {error && <div className="flex items-center gap-2 text-cta font-semibold bg-accent-light p-3 rounded"><span>❗</span><span>{error}</span></div>}
 
         <div className="relative">
           <input
@@ -59,12 +59,12 @@ export default function LoginForm() {
             {...formik.getFieldProps("email")}
             className={`w-full pl-4 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition ${
               formik.touched.email && formik.errors.email
-                ? "border-red-500 ring-red-500 text-red-600 placeholder-red-400"
-                : "border-gray-300 ring-blue-500"
+                ? "border-cta ring-cta text-cta placeholder-cta-light"
+                : "border-gray-300 ring-primary"
             }`}
           />
           {formik.touched.email && formik.errors.email ? (
-            <p className="text-red-500 mt-1 text-sm">{formik.errors.email}</p>
+            <p className="text-cta mt-1 text-sm">{formik.errors.email}</p>
           ) : null}
         </div>
 
@@ -76,19 +76,19 @@ export default function LoginForm() {
             {...formik.getFieldProps("password")}
             className={`w-full pl-4 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition ${
               formik.touched.password && formik.errors.password
-                ? "border-red-500 ring-red-500 text-red-600 placeholder-red-400"
-                : "border-gray-300 ring-blue-500"
+                ? "border-cta ring-cta text-cta placeholder-cta-light"
+                : "border-gray-300 ring-primary"
             }`}
           />
           {formik.touched.password && formik.errors.password ? (
-            <p className="text-red-500 mt-1 text-sm">{formik.errors.password}</p>
+            <p className="text-cta mt-1 text-sm">{formik.errors.password}</p>
           ) : null}
         </div>
 
         <button
           type="submit"
           disabled={formik.isSubmitting || loading}
-          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-2"
+          className="w-full py-3 bg-cta text-white font-semibold rounded-md hover:bg-cta-hover transition flex items-center justify-center gap-2"
         >
           {loading ? <span className="animate-spin mr-2">🔄</span> : null}
           {loading ? "Đang đăng nhập..." : "Đăng nhập"}
@@ -96,7 +96,7 @@ export default function LoginForm() {
       </form>
       <div className="mt-6 text-center text-sm text-gray-600">
         Chưa có tài khoản?{' '}
-        <Link to="/auth/register" className="text-blue-600 hover:underline font-semibold">Đăng ký ngay</Link>
+        <Link to="/auth/register" className="text-primary hover:text-primary-hover underline font-semibold">Đăng ký ngay</Link>
       </div>
     </div>
   );

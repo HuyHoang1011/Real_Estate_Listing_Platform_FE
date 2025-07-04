@@ -32,7 +32,7 @@ export default function PropertyCard({ property, hideFavorite = false }) {
 
   return (
     <div 
-      className="border rounded p-4 shadow hover:shadow-lg transition relative cursor-pointer bg-white flex flex-col"
+      className="border border-accent rounded p-4 shadow hover:shadow-lg transition relative cursor-pointer bg-accent-light flex flex-col"
       onClick={handleCardClick}
     >
       {/* Image */}
@@ -44,13 +44,13 @@ export default function PropertyCard({ property, hideFavorite = false }) {
         {!hideFavorite && (
           <button
             onClick={toggleFavorite}
-            className="text-2xl focus:outline-none z-10 p-1 hover:bg-gray-100 rounded-full"
+            className="text-2xl focus:outline-none z-10 p-1 hover:bg-accent rounded-full"
             aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           >
             {isFavorite ? (
-              <AiFillHeart className="text-red-600" />
+              <AiFillHeart className="text-cta" />
             ) : (
-              <AiOutlineHeart className="text-gray-400 hover:text-red-500" />
+              <AiOutlineHeart className="text-gray-400 hover:text-cta" />
             )}
           </button>
         )}

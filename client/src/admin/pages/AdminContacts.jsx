@@ -37,7 +37,7 @@ export default function AdminContacts() {
       case 'pending':
         return 'bg-yellow-100 text-yellow-800';
       case 'processing':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-primary/10 text-primary';
       case 'completed':
         return 'bg-green-100 text-green-800';
       case 'cancelled':
@@ -77,7 +77,7 @@ export default function AdminContacts() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
           >
             <option value="">Tất cả</option>
             <option value="pending">Chờ xử lý</option>
@@ -150,7 +150,7 @@ export default function AdminContacts() {
                         <select
                           value={contact.status}
                           onChange={(e) => handleStatusUpdate(contact.id, e.target.value)}
-                          className="px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                          className="px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-primary focus:border-primary"
                         >
                           <option value="pending">Chờ xử lý</option>
                           <option value="processing">Đang xử lý</option>

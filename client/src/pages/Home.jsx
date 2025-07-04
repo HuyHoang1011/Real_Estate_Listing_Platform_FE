@@ -24,7 +24,7 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-6">Dự án bất động sản mới nhất</h2>
 
         {isLoading && <p>Đang tải dữ liệu...</p>}
-        {error && <p className="text-red-600">Lỗi tải dữ liệu</p>}
+        {error && <p className="text-cta">Lỗi tải dữ liệu</p>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {properties.map((property) => (
@@ -35,7 +35,7 @@ export default function Home() {
         <div className="flex justify-center mt-8">
           <button
             onClick={handleShowMore}
-            className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+            className="px-6 py-3 bg-cta text-white rounded-md hover:bg-cta-hover transition"
           >
             Xem thêm
           </button>

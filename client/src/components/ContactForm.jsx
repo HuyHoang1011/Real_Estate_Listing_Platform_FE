@@ -21,14 +21,14 @@ export default function ContactForm({ propertyId, onSubmit }) {
           value={message}
           onChange={e => setMessage(e.target.value)}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary"
           rows={4}
         />
       </div>
       
       <button
         type="submit"
-        className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="w-full px-6 py-3 bg-cta text-white font-semibold rounded-md hover:bg-cta-hover transition duration-200 focus:ring-2 focus:ring-cta focus:ring-offset-2"
       >
         Gửi tin nhắn
       </button>

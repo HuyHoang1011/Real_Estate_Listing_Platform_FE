@@ -47,17 +47,17 @@ export default function PropertyForm({ property, onClose }) {
   });
 
   return (
-    <div className="mb-4 p-4 border rounded shadow bg-gray-50">
+    <div className="mb-4 p-4 border border-accent rounded shadow bg-accent-light">
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <input
           name="title"
           placeholder="Tiêu đề"
           value={formik.values.title}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.title && formik.touched.title && (
-          <p className="text-red-600 text-sm">{formik.errors.title}</p>
+          <p className="text-cta text-sm">{formik.errors.title}</p>
         )}
 
         <input
@@ -66,10 +66,10 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Giá (triệu)"
           value={formik.values.price}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.price && formik.touched.price && (
-          <p className="text-red-600 text-sm">{formik.errors.price}</p>
+          <p className="text-cta text-sm">{formik.errors.price}</p>
         )}
 
         <input
@@ -78,17 +78,17 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Diện tích (m²)"
           value={formik.values.area}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.area && formik.touched.area && (
-          <p className="text-red-600 text-sm">{formik.errors.area}</p>
+          <p className="text-cta text-sm">{formik.errors.area}</p>
         )}
 
         <select
           name="type"
           value={formik.values.type}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="">Chọn loại bất động sản</option>
           <option value="house">Nhà ở</option>
@@ -96,7 +96,7 @@ export default function PropertyForm({ property, onClose }) {
           <option value="land">Đất</option>
         </select>
         {formik.errors.type && formik.touched.type && (
-          <p className="text-red-600 text-sm">{formik.errors.type}</p>
+          <p className="text-cta text-sm">{formik.errors.type}</p>
         )}
 
         <input
@@ -104,10 +104,10 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Tỉnh/Thành phố"
           value={formik.values.province}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.province && formik.touched.province && (
-          <p className="text-red-600 text-sm">{formik.errors.province}</p>
+          <p className="text-cta text-sm">{formik.errors.province}</p>
         )}
 
         <input
@@ -115,10 +115,10 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Quận/Huyện"
           value={formik.values.district}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.district && formik.touched.district && (
-          <p className="text-red-600 text-sm">{formik.errors.district}</p>
+          <p className="text-cta text-sm">{formik.errors.district}</p>
         )}
 
         <input
@@ -126,10 +126,10 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Phường/Xã"
           value={formik.values.ward}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.ward && formik.touched.ward && (
-          <p className="text-red-600 text-sm">{formik.errors.ward}</p>
+          <p className="text-cta text-sm">{formik.errors.ward}</p>
         )}
 
         <input
@@ -137,24 +137,24 @@ export default function PropertyForm({ property, onClose }) {
           placeholder="Số nhà, tên đường"
           value={formik.values.streetAddress}
           onChange={formik.handleChange}
-          className="w-full px-3 py-2 border rounded"
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
         />
         {formik.errors.streetAddress && formik.touched.streetAddress && (
-          <p className="text-red-600 text-sm">{formik.errors.streetAddress}</p>
+          <p className="text-cta text-sm">{formik.errors.streetAddress}</p>
         )}
 
         <div className="flex justify-end space-x-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 border rounded hover:bg-gray-200"
+            className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-200 transition"
           >
             Hủy
           </button>
           <button
             type="submit"
             disabled={formik.isSubmitting}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-cta text-white rounded hover:bg-cta-hover transition"
           >
             {property ? 'Cập nhật' : 'Thêm mới'}
           </button>

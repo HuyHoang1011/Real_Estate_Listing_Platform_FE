@@ -23,17 +23,17 @@ export default function AdminDashboard() {
       <h1 className="text-3xl font-bold mb-8">Bảng điều khiển quản trị</h1>
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <div className="bg-blue-100 rounded-lg p-6 flex flex-col items-center shadow">
-          <span className="text-4xl font-bold text-blue-700">{loadingProps ? '...' : totalProperties}</span>
-          <span className="mt-2 text-blue-900 font-semibold">Bất động sản</span>
+        <div className="bg-primary/10 rounded-lg p-6 flex flex-col items-center shadow border border-primary/20">
+          <span className="text-4xl font-bold text-primary">{loadingProps ? '...' : totalProperties}</span>
+          <span className="mt-2 text-primary font-semibold">Bất động sản</span>
         </div>
-        <div className="bg-green-100 rounded-lg p-6 flex flex-col items-center shadow">
-          <span className="text-4xl font-bold text-green-700">{loadingUsers ? '...' : totalUsers}</span>
-          <span className="mt-2 text-green-900 font-semibold">Người dùng</span>
+        <div className="bg-accent-light rounded-lg p-6 flex flex-col items-center shadow border border-accent">
+          <span className="text-4xl font-bold text-accent">{loadingUsers ? '...' : totalUsers}</span>
+          <span className="mt-2 text-accent font-semibold">Người dùng</span>
         </div>
-        <div className="bg-yellow-100 rounded-lg p-6 flex flex-col items-center shadow">
-          <span className="text-4xl font-bold text-yellow-700">{loadingContacts ? '...' : totalContacts}</span>
-          <span className="mt-2 text-yellow-900 font-semibold">Liên hệ</span>
+        <div className="bg-cta/10 rounded-lg p-6 flex flex-col items-center shadow border border-cta/20">
+          <span className="text-4xl font-bold text-cta">{loadingContacts ? '...' : totalContacts}</span>
+          <span className="mt-2 text-cta font-semibold">Liên hệ</span>
         </div>
       </div>
 
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <h2 className="text-xl font-bold mb-4">BĐS mới nhất</h2>
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-accent-light rounded-lg shadow p-4 border border-accent">
             {loadingProps ? (
               <p>Đang tải...</p>
             ) : latestProperties.length === 0 ? (
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
             ) : (
               <ul>
                 {latestProperties.map((p) => (
-                  <li key={p.id} className="mb-3 border-b pb-2 last:border-b-0 last:pb-0">
+                  <li key={p.id} className="mb-3 border-b border-accent pb-2 last:border-b-0 last:pb-0">
                     <span className="font-semibold">{p.title}</span> — {p.price} triệu, {p.area} m², {p.province}
                   </li>
                 ))}
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
         </div>
         <div>
           <h2 className="text-xl font-bold mb-4">Người dùng mới nhất</h2>
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-accent-light rounded-lg shadow p-4 border border-accent">
             {loadingUsers ? (
               <p>Đang tải...</p>
             ) : latestUsers.length === 0 ? (
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
             ) : (
               <ul>
                 {latestUsers.map((u) => (
-                  <li key={u.id} className="mb-3 border-b pb-2 last:border-b-0 last:pb-0">
+                  <li key={u.id} className="mb-3 border-b border-accent pb-2 last:border-b-0 last:pb-0">
                     <span className="font-semibold">{u.name}</span> — {u.email} ({u.role})
                   </li>
                 ))}
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
         </div>
         <div>
           <h2 className="text-xl font-bold mb-4">Liên hệ mới nhất</h2>
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-accent-light rounded-lg shadow p-4 border border-accent">
             {loadingContacts ? (
               <p>Đang tải...</p>
             ) : latestContacts.length === 0 ? (
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
             ) : (
               <ul>
                 {latestContacts.map((c) => (
-                  <li key={c.id} className="mb-3 border-b pb-2 last:border-b-0 last:pb-0">
+                  <li key={c.id} className="mb-3 border-b border-accent pb-2 last:border-b-0 last:pb-0">
                     <span className="font-semibold">{c.user?.name || 'Ẩn danh'}</span> → <span className="font-semibold">{c.property?.title || 'BĐS đã xóa'}</span>
                     <br />
                     <span className="text-gray-600 text-sm">{c.message}</span>

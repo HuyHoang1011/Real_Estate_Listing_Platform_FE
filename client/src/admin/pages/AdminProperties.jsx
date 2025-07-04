@@ -89,7 +89,7 @@ export default function AdminProperties() {
               <td className="border border-gray-300 p-2 space-x-2">
                 <button
                   onClick={() => handleEdit(prop)}
-                  className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
+                  className="bg-primary text-white px-2 py-1 rounded hover:bg-primary-hover"
                 >
                   Sửa
                 </button>

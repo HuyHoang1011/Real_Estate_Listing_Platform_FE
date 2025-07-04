@@ -154,7 +154,7 @@ export default function UserForm({ user, onClose }) {
           <button
             type="submit"
             disabled={formik.isSubmitting}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-cta text-white rounded hover:bg-cta-hover"
           >
             {user ? 'Cập nhật' : 'Thêm mới'}
           </button>
